@@ -255,13 +255,13 @@ def combine(data_1name, data_2name):
     df = df.sort_values('ID', ascending=True)
     # 对完全一样的数据进行去冗余处理
     df = df.drop_duplicates(subset=None, keep='first', inplace=False)
-    df.to_excel('combine.xlsx')
-    wb_com = openpyxl.load_workbook('combine.xlsx')
+    df.to_excel('MultiSourceData.xlsx')
+    wb_com = openpyxl.load_workbook('MultiSourceData.xlsx')
     ws_com = wb_com.active
     ws_com.delete_cols(1)
-    wb_com.save('Combine.xlsx')
+    wb_com.save('MultiSourceData.xlsx')
     print("整合完成")
-    filename = "combine.xlsx"
+    filename = "MultiSourceData.xlsx"
     return filename
 
 

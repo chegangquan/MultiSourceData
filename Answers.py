@@ -22,7 +22,7 @@ def cor(x, y):
     return covf(x, y) / (std(x) * std(y))
 
 def calculate():
-    df = pd.read_excel('combine.xlsx')
+    df = pd.read_excel('MultiSourceData.xlsx')
     studentnum = df.shape[0]
     #
     df.loc[df['Constitution'] == 'excellent', 'Constitution'] = 90  # Constitution等于‘excellent’的Constitution赋值90
