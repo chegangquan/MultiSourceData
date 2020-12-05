@@ -21,31 +21,34 @@ def std(a):
 def cor(x, y):
     return covf(x, y) / (std(x) * std(y))
 
+
 def calculate():
+    #读取处理完成的数据文件
     df = pd.read_excel('MultiSourceData.xlsx')
-    studentnum = df.shape[0]
-    #
+    # 将体能测试成绩各个等级转换为数值成绩
     df.loc[df['Constitution'] == 'excellent', 'Constitution'] = 90  # Constitution等于‘excellent’的Constitution赋值90
     df.loc[df['Constitution'] == 'good', 'Constitution'] = 80  # Constitution等于‘good’的Constitution赋值80
     df.loc[df['Constitution'] == 'general', 'Constitution'] = 70  # Constitution等于‘general’的Constitution赋值70
     df.loc[df['Constitution'] == 'bad', 'Constitution'] = 50  # Constitution等于‘bad’的Constitution赋值50
+    # 由于C10,成绩缺失，将其赋值为C6的成绩
     df['C10'] = df['C6']
 
     BjCAvg = []
     for i in range(11):
         if i < 10:
-            BjCAvg.append((df.loc[df['City'] == 'Beijing', ['C%d' % (i + 1)]]).mean())
+            BjCAvg.append((df.loc[df['City'] == 'Beijing', ['C%d' % (i + 1)]]).mean())  # C1...C10的平均成绩
         else:
-            BjCAvg.append((df.loc[df['City'] == 'Beijing', ['Constitution']]).mean())
+            BjCAvg.append((df.loc[df['City'] == 'Beijing', ['Constitution']]).mean())  # 体能测试平均成绩
     print("1.	北京学生所有课程平均成绩:")
-    for i in range(1, 12):
+    for i in range(1, 12):  # 输出北京学生所有课程平均成绩
         if i < 11:
             print("C", i, ":", BjCAvg[i - 1].values)
         else:
             print("Constitution", BjCAvg[i - 1].values, "\n")
 
     print("2.	学生中家乡在广州，课程1在80分以上，且课程9在9分以上的男同学的数量:",
-          df.loc[(df['City'] == 'Guangzhou') & (df['C1'] > 80) & (df['Gender'] == 'male') & (df['C9'] >= 9)].shape[0], "\n")
+          df.loc[(df['City'] == 'Guangzhou') & (df['C1'] > 80) & (df['Gender'] == 'male') & (df['C9'] >= 9)].shape[0],
+          "\n")
 
     print("3.	比较广州和上海两地女生的平均体能测试成绩，哪个地区的更强些？")
     GzStudentNum = df.loc[(df['City'] == 'Guangzhou') & (df['Gender'] == 'female')].shape[0]  # 广州女学生人数
